@@ -846,6 +846,7 @@ if ($save && $user->data['is_registered'] && $auth->acl_get('u_savedrafts') && (
 				'disable_smilies'	=> false,
 				'disable_magic_url'	=> false,
 				'attach_sig'		=> true,
+				'notify'			=> false,
 				'lock_topic'		=> false,
 
 				'topic_type'		=> POST_NORMAL,
@@ -1427,7 +1428,14 @@ if ($submit || $preview || $refresh)
 	// Store message, sync counters
 	if (!count($error) && $submit)
 	{
-		if ($submit)
+		/** @var \phpbb\lock\posting $posting_lock */
+		$posting_lock = $phpbb_container->get('posting.lock');
+
+		// Get creation time and form token, must be already checked at this point
+		$creation_time	= abs($request->variable('creation_time', 0));
+		$form_token = $request->variable('form_token', '');
+
+		if ($posting_lock->acquire($creation_time, $form_token))
 		{
 			// Lock/Unlock Topic
 			$change_topic_status = $post_data['topic_status'];
@@ -1617,6 +1625,11 @@ if ($submit || $preview || $refresh)
 			}
 
 			redirect($redirect_url);
+		}
+		else
+		{
+			// Posting was already locked before, hence form submission was already attempted once and is now invalid
+			$error[] = $language->lang('FORM_INVALID');
 		}
 	}
 }
@@ -1951,7 +1964,7 @@ $page_data = array(
 	'S_BBCODE_CHECKED'			=> ($bbcode_checked) ? ' checked="checked"' : '',
 	'S_SMILIES_ALLOWED'			=> $smilies_status,
 	'S_SMILIES_CHECKED'			=> ($smilies_checked) ? ' checked="checked"' : '',
-	'S_SIG_ALLOWED'				=> ($auth->acl_get('f_sigs', $forum_id) && $config['allow_sig'] && $user->data['is_registered']) ? true : false,
+	'S_SIG_ALLOWED'				=> ($user->data['is_registered'] && $config['allow_sig'] && $auth->acl_get('f_sigs', $forum_id) && $auth->acl_get('u_sig')) ? true : false,
 	'S_SIGNATURE_CHECKED'		=> ($sig_checked) ? ' checked="checked"' : '',
 	'S_NOTIFY_ALLOWED'			=> (!$user->data['is_registered'] || ($mode == 'edit' && $user->data['user_id'] != $post_data['poster_id']) || !$config['allow_topic_notify'] || !$config['email_enable']) ? false : true,
 	'S_NOTIFY_CHECKED'			=> ($notify_checked) ? ' checked="checked"' : '',

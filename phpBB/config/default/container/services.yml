@@ -126,6 +126,13 @@ services:
         arguments:
             - '%core.root_path%'
 
+    form_helper:
+        class: phpbb\form\form_helper
+        arguments:
+            - '@config'
+            - '@request'
+            - '@user'
+
     group_helper:
         class: phpbb\group\helper
         arguments:
@@ -149,6 +156,15 @@ services:
             - '%core.adm_relative_path%'
             - '%core.php_ext%'
             - '%tables.log%'
+
+    manifest.controller:
+        class: phpbb\manifest
+        arguments:
+            - '@config'
+            - '@language'
+            - '@path_helper'
+            - '@event_dispatcher'
+            - '@user'
 
     path_helper:
         class: phpbb\path_helper

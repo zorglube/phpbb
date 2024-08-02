@@ -29,7 +29,7 @@ jobs:
 
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
               with:
                   fetch-depth: 100
 
@@ -48,7 +48,7 @@ jobs:
                   cd ..
 
             - name: Cache Composer dependencies
-              uses: actions/cache@v3
+              uses: actions/cache@v4
               with:
                   path: ${{ steps.composer-cache.outputs.dir }}
                   key: composer-${{ matrix.php }}-${{ hashFiles('phpBB/composer.lock') }}
@@ -137,6 +137,10 @@ jobs:
                       db: "mysql:5.7"
                     - php: '8.3'
                       db: "mariadb:10.2"
+                    - php: '8.4'
+                      db: "mysql:8.0"
+                    - php: '8.4'
+                      db: "mariadb:10.3"
 
         name: PHP ${{ matrix.php }} - ${{ matrix.db_alias != '' && matrix.db_alias || matrix.db }}
 
@@ -166,7 +170,7 @@ jobs:
 
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
 
             - id: database-type
               env:
@@ -192,7 +196,7 @@ jobs:
                   cd ..
 
             - name: Cache Composer dependencies
-              uses: actions/cache@v3
+              uses: actions/cache@v4
               with:
                   path: ${{ steps.composer-cache.outputs.dir }}
                   key: composer-${{ matrix.php }}-${{ hashFiles('phpBB/composer.lock') }}
@@ -216,6 +220,13 @@ jobs:
               if: ${{ matrix.SLOWTESTS == 1 }}
               run: |
                   .github/setup-ldap.sh
+
+            - name: Setup node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+            - name: Setup node dependencies
+              run: npm ci
 
             - name: Setup SPHINX
               run: |
@@ -265,6 +276,8 @@ jobs:
                       db: "postgres:9.5"
                     - php: '8.3'
                       db: "postgres:9.5"
+                    - php: '8.4'
+                      db: "postgres:9.5"
 
         name: PHP ${{ matrix.php }} - ${{ matrix.db }}
 
@@ -296,7 +309,7 @@ jobs:
 
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
 
             - id: database-type
               env:
@@ -322,7 +335,7 @@ jobs:
                   cd ..
 
             - name: Cache Composer dependencies
-              uses: actions/cache@v3
+              uses: actions/cache@v4
               with:
                   path: ${{ steps.composer-cache.outputs.dir }}
                   key: composer-${{ matrix.php }}-${{ hashFiles('phpBB/composer.lock') }}
@@ -341,6 +354,13 @@ jobs:
                   MYISAM: '0'
               run: |
                   .github/setup-database.sh $DB $MYISAM
+
+            - name: Setup node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+            - name: Setup node dependencies
+              run: npm ci
 
             - name: Run unit tests
               env:
@@ -363,14 +383,14 @@ jobs:
                       db: "mcr.microsoft.com/mssql/server:2019-latest"
                       db_alias: 'MSSQL 2019'
                     - php: '8.1'
-                      db: "mcr.microsoft.com/mssql/server:2022-latest"
+                      db: "mcr.microsoft.com/mssql/server:2022-CU13-ubuntu-22.04"
                       db_alias: 'MSSQL 2022'
 
         name: PHP ${{ matrix.php }} - ${{ matrix.db_alias != '' && matrix.db_alias || matrix.db }}
 
         services:
             mssql:
-                image: ${{ matrix.db != 'mcr.microsoft.com/mssql/server:2017-latest' && matrix.db != 'mcr.microsoft.com/mssql/server:2019-latest' && matrix.db != 'mcr.microsoft.com/mssql/server:2022-latest' && 'mcr.microsoft.com/mssql/server:2017-latest' || matrix.db }}
+                image: ${{ matrix.db != 'mcr.microsoft.com/mssql/server:2017-latest' && matrix.db != 'mcr.microsoft.com/mssql/server:2019-latest' && matrix.db != 'mcr.microsoft.com/mssql/server:2022-CU13-ubuntu-22.04' && 'mcr.microsoft.com/mssql/server:2017-latest' || matrix.db }}
                 env:
                     SA_PASSWORD: "Pssw0rd_12"
                     ACCEPT_EULA: "y"
@@ -396,13 +416,13 @@ jobs:
 
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
 
             - id: database-type
               env:
                   MATRIX_DB: ${{ matrix.db }}
               run: |
-                  if [ $MATRIX_DB == 'mcr.microsoft.com/mssql/server:2017-latest' ] || [ $MATRIX_DB == 'mcr.microsoft.com/mssql/server:2019-latest' ] || [ $MATRIX_DB == 'mcr.microsoft.com/mssql/server:2022-latest' ]
+                  if [ $MATRIX_DB == 'mcr.microsoft.com/mssql/server:2017-latest' ] || [ $MATRIX_DB == 'mcr.microsoft.com/mssql/server:2019-latest' ] || [ $MATRIX_DB == 'mcr.microsoft.com/mssql/server:2022-CU13-ubuntu-22.04' ]
                   then
                       db='mssql'
                   else
@@ -427,7 +447,7 @@ jobs:
                   cd ..
 
             - name: Cache Composer dependencies
-              uses: actions/cache@v3
+              uses: actions/cache@v4
               with:
                   path: ${{ steps.composer-cache.outputs.dir }}
                   key: composer-${{ matrix.php }}-${{ hashFiles('phpBB/composer.lock') }}
@@ -447,6 +467,13 @@ jobs:
               run: |
                   .github/setup-database.sh $DB $MYISAM
 
+            - name: Setup node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+            - name: Setup node dependencies
+              run: npm ci
+
             - name: Run unit tests
               env:
                   DB: ${{steps.database-type.outputs.db}}
@@ -459,7 +486,7 @@ jobs:
         strategy:
             matrix:
                 type: ['unit', 'functional']
-                php: ['8.1', '8.2']
+                php: ['8.1', '8.2', '8.3']
                 db: ['postgres']
 
         name: Windows - ${{ matrix.type }} - PHP ${{ matrix.php }} - ${{ matrix.db }}
@@ -470,7 +497,7 @@ jobs:
                   git config --system core.autocrlf false
                   git config --system core.eol lf
             - name: Checkout repository
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
 
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
@@ -488,7 +515,7 @@ jobs:
                   cd ..
 
             - name: Cache Composer dependencies
-              uses: actions/cache@v3
+              uses: actions/cache@v4
               with:
                   path: ${{ steps.composer-cache.outputs.dir }}
                   key: composer-${{ matrix.php }}-${{ hashFiles('phpBB/composer.lock') }}
@@ -555,6 +582,14 @@ jobs:
                   psql -c 'create database phpbb_tests;' -U postgres
                   Set-MpPreference -ExclusionPath "${env:PGDATA}" # Exclude PGDATA directory from Windows Defender
                   Set-MpPreference -DisableRealtimeMonitoring $true
+
+            - name: Setup node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+            - name: Setup node dependencies
+              run: npm ci
+
             - name: Run unit tests
               if: ${{ matrix.type == 'unit' }}
               run: |

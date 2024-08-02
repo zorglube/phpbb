@@ -210,18 +210,18 @@ function user_add($user_row, $cp_data = false, $notifications_data = null)
 
 	// These are the additional vars able to be specified
 	$additional_vars = array(
-		'user_permissions'	=> '',
-		'user_timezone'		=> $config['board_timezone'],
-		'user_dateformat'	=> $config['default_dateformat'],
-		'user_lang'			=> $config['default_lang'],
-		'user_style'		=> (int) $config['default_style'],
-		'user_actkey'		=> '',
-		'user_ip'			=> '',
-		'user_regdate'		=> time(),
-		'user_passchg'		=> time(),
-		'user_options'		=> 230271,
+		'user_permissions'			=> '',
+		'user_timezone'				=> $config['board_timezone'],
+		'user_dateformat'			=> $config['default_dateformat'],
+		'user_lang'					=> $config['default_lang'],
+		'user_style'				=> (int) $config['default_style'],
+		'user_actkey'				=> '',
+		'user_ip'					=> '',
+		'user_regdate'				=> time(),
+		'user_passchg'				=> time(),
+		'user_options'				=> 230271,
 		// We do not set the new flag here - registration scripts need to specify it
-		'user_new'			=> 0,
+		'user_new'					=> 0,
 
 		'user_inactive_reason'	=> 0,
 		'user_inactive_time'	=> 0,
@@ -1789,7 +1789,7 @@ function avatar_delete($mode, $row, $clean_db = false)
 
 		return true;
 	}
-	catch (\phpbb\storage\exception\exception $e)
+	catch (\phpbb\storage\exception\storage_exception $e)
 	{
 		// Fail is covered by return statement below
 	}
@@ -2131,7 +2131,7 @@ function group_correct_avatar($group_id, $old_entry)
 			WHERE group_id = $group_id";
 		$db->sql_query($sql);
 	}
-	catch (\phpbb\storage\exception\exception $e)
+	catch (\phpbb\storage\exception\storage_exception $e)
 	{
 		// If rename fail, dont execute the query
 	}

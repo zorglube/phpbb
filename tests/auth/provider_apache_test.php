@@ -33,7 +33,7 @@ class phpbb_auth_provider_apache_test extends phpbb_database_test_case
 		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
 		$lang = new \phpbb\language\language($lang_loader);
 		$this->request = $this->createMock('\phpbb\request\request');
-		$this->user = new \phpbb\user($lang, '\phpbb\datetime');;
+		$this->user = new \phpbb\user($lang, '\phpbb\datetime');
 
 		$this->provider = new \phpbb\auth\provider\apache($config, $db, $lang, $this->request, $this->user, $phpbb_root_path, $phpEx);
 	}
@@ -120,6 +120,7 @@ class phpbb_auth_provider_apache_test extends phpbb_database_test_case
 			'user_email' => 'example@example.com',
 			'user_birthday' => '',
 			'user_lastvisit' => 0,
+			'user_last_active' => 0,
 			'user_lastmark' => 0,
 			'user_lastpost_time' => 0,
 			'user_lastpage' => '',
@@ -166,6 +167,7 @@ class phpbb_auth_provider_apache_test extends phpbb_database_test_case
 			'user_sig_bbcode_bitfield' => '',
 			'user_jabber' => '',
 			'user_actkey' => '',
+			'user_actkey_expiration' => 0,
 			'user_newpasswd' => '',
 			'user_form_salt' => '',
 			'user_new' => 1,

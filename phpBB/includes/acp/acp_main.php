@@ -445,6 +445,7 @@ class acp_main
 				$template->assign_vars(array(
 					'S_VERSION_UP_TO_DATE'		=> empty($updates_available),
 					'S_VERSION_UPGRADEABLE'		=> !empty($upgrades_available),
+					'S_VERSIONCHECK_FORCE'		=> (bool) $recheck,
 					'UPGRADE_INSTRUCTIONS'		=> !empty($upgrades_available) ? $user->lang('UPGRADE_INSTRUCTIONS', $upgrades_available['current'], $upgrades_available['announcement']) : false,
 				));
 			}
@@ -641,6 +642,9 @@ class acp_main
 			}
 		}
 
+		// Warn if incomplete captcha is enabled
+		$this->check_captcha_type($config, $template);
+
 		if (!defined('PHPBB_DISABLE_CONFIG_CHECK'))
 		{
 			// World-Writable? (000x)
@@ -672,5 +676,28 @@ class acp_main
 
 		$this->tpl_name = 'acp_main';
 		$this->page_title = 'ACP_MAIN';
+	}
+
+	/**
+	 * Check CAPTCHA type and output warning if incomplete type or unsafe config is used
+	 *
+	 * @param \phpbb\config\config $config
+	 * @param \phpbb\template\template $template
+	 * @return void
+	 */
+	protected function check_captcha_type(\phpbb\config\config $config, \phpbb\template\template $template): void
+	{
+		$template_vars = [];
+
+		if (!$config['enable_confirm'])
+		{
+			$template_vars['S_CAPTCHA_UNSAFE'] = true;
+		}
+		else if ($config['captcha_plugin'] == 'core.captcha.plugins.incomplete')
+		{
+			$template_vars['S_CAPTCHA_INCOMPLETE'] = true;
+		}
+
+		$template->assign_vars($template_vars);
 	}
 }

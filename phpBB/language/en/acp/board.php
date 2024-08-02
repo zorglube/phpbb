@@ -69,6 +69,8 @@ $lang = array_merge($lang, array(
 	'SITE_HOME_URL'					=> 'Main website URL',
 	'SITE_HOME_URL_EXPLAIN'			=> 'If specified, a link to this URL will be prepended to your board’s breadcrumbs and the board logo will link to this URL instead of the forum index. An absolute URL is required, e.g. <samp>http://www.phpbb.com</samp>.',
 	'SITE_NAME'						=> 'Site name',
+	'SITE_NAME_SHORT'				=> 'Short site name',
+	'SITE_NAME_SHORT_EXPLAIN'		=> 'Short name will be used if your site is added to a mobile device’s home screen. It can not exceed 12 characters (Emoji is supported).',
 	'SYSTEM_TIMEZONE'				=> 'Guest timezone',
 	'SYSTEM_TIMEZONE_EXPLAIN'			=> 'Timezone to use for displaying times to users who are not logged in (guests, bots). Logged in users set their timezone during registration and can change it in their user control panel.',
 	'WARNINGS_EXPIRE'				=> 'Warning duration',
@@ -304,29 +306,11 @@ $lang = array_merge($lang, array(
 
 // Visual Confirmation Settings
 $lang = array_merge($lang, array(
-	'ACP_VC_SETTINGS_EXPLAIN'				=> 'Here you can select and configure plugins, which are designed to block automated form submissions by spambots. These plugins typically work by challenging the user with a <em>CAPTCHA</em>, a test which is designed to be difficult for computers to solve.',
+	'ACP_VC_SETTINGS_EXPLAIN'				=> 'Here you can select and configure plugins, which are designed to block automated form submissions by spambots. These plugins typically work by challenging the user with a <em>CAPTCHA</em>, a test which is designed to be difficult for computers to solve. phpBB defaults to "Incomplete Captcha," disabling verification and preventing functionality like registration that require CAPTCHA verification.',
 	'ACP_VC_EXT_GET_MORE'					=> 'For additional (and possibly better) anti-spam plugins, visit the <a href="https://www.phpbb.com/go/anti-spam-ext"><strong>phpBB.com Extensions Database</strong></a>. For more information on preventing spam on your board, visit the <a href="https://www.phpbb.com/go/anti-spam"><strong>phpBB.com Knowledge Base</strong></a>.',
 	'AVAILABLE_CAPTCHAS'					=> 'Available plugins',
 	'CAPTCHA_UNAVAILABLE'					=> 'The plugin cannot be selected as its requirements are not met.',
-	'CAPTCHA_GD'							=> 'GD image',
-	'CAPTCHA_GD_3D'							=> 'GD 3D image',
-	'CAPTCHA_GD_FOREGROUND_NOISE'			=> 'Foreground noise',
-	'CAPTCHA_GD_EXPLAIN'					=> 'Uses GD to make a more advanced anti-spambot image.',
-	'CAPTCHA_GD_FOREGROUND_NOISE_EXPLAIN'	=> 'Use foreground noise to make the image harder to read.',
-	'CAPTCHA_GD_X_GRID'						=> 'Background noise x-axis',
-	'CAPTCHA_GD_X_GRID_EXPLAIN'				=> 'Use lower settings of this to make the image harder to read. 0 will disable x-axis background noise.',
-	'CAPTCHA_GD_Y_GRID'						=> 'Background noise y-axis',
-	'CAPTCHA_GD_Y_GRID_EXPLAIN'				=> 'Use lower settings of this to make the image harder to read. 0 will disable y-axis background noise.',
-	'CAPTCHA_GD_WAVE'						=> 'Wave distortion',
-	'CAPTCHA_GD_WAVE_EXPLAIN'				=> 'This applies a wave distortion to the image.',
-	'CAPTCHA_GD_3D_NOISE'					=> 'Add 3D-noise objects',
-	'CAPTCHA_GD_3D_NOISE_EXPLAIN'			=> 'This adds additional objects to the image, over the letters.',
-	'CAPTCHA_GD_FONTS'						=> 'Use different fonts',
-	'CAPTCHA_GD_FONTS_EXPLAIN'				=> 'This setting controls how many different letter shapes are used. You can just use the default shapes or introduce altered letters. Adding lowercase letters is also possible.',
-	'CAPTCHA_FONT_DEFAULT'					=> 'Default',
-	'CAPTCHA_FONT_NEW'						=> 'New Shapes',
-	'CAPTCHA_FONT_LOWER'					=> 'Also use lowercase',
-	'CAPTCHA_NO_GD'							=> 'Simple image',
+	'CAPTCHA_INCOMPLETE'					=> 'Incomplete Captcha (Not configured)',
 	'CAPTCHA_PREVIEW_MSG'					=> 'Your changes have not been saved, this is just a preview.',
 	'CAPTCHA_PREVIEW_EXPLAIN'				=> 'The plugin as it would look like using the current selection.',
 
@@ -598,6 +582,21 @@ $lang = array_merge($lang, array(
 	'USE_SMTP'						=> 'Use SMTP server for email',
 	'USE_SMTP_EXPLAIN'				=> 'Select “Yes” if you want or have to send email via a named server instead of the local mail function.',
 ));
+
+$lang = array_merge($lang, [
+	'ACP_WEBPUSH_SETTINGS_EXPLAIN'	=> 'Here you can enable Web Push for board notifications. Web Push is a protocol for the real-time delivery of events to user agents, commonly referred to as push messages. It is compatible with the majority of modern browsers on both desktop and mobile devices. Users can opt to receive Web Push alerts in their browser by subscribing and enabling their preferred notifications in the UCP.',
+	'WEBPUSH_ENABLE'				=> 'Enable Web Push',
+	'WEBPUSH_ENABLE_EXPLAIN'		=> 'Allow users to receive notifications in their browser or device via Web Push. To utilize Web Push, you must input or generate valid VAPID identification keys.',
+	'WEBPUSH_GENERATE_VAPID_KEYS'	=> 'Generate Identification keys',
+	'WEBPUSH_VAPID_PUBLIC'			=> 'Server identification public key',
+	'WEBPUSH_VAPID_PUBLIC_EXPLAIN'	=> 'The Voluntary Application Server Identification (VAPID) public key is shared to authenticate push messages from your site.<br><em><strong>Caution:</strong> Modifying the VAPID public key will automatically render all Web Push subscriptions invalid.</em>',
+	'WEBPUSH_VAPID_PRIVATE'			=> 'Server identification private key',
+	'WEBPUSH_VAPID_PRIVATE_EXPLAIN'	=> 'The Voluntary Application Server Identification (VAPID) private key is used to generate authenticated push messages dispatched from your site. The VAPID private key <strong>must</strong> form a valid public-private key pair alongside the VAPID public key.<br><em><strong>Caution:</strong> Modifying the VAPID private key will automatically render all Web Push subscriptions invalid.</em>',
+	'WEBPUSH_METHOD_DEFAULT_ENABLE'	=> 'Enable all user-based web push notification options by default',
+	'WEBPUSH_METHOD_DEFAULT_ENABLE_EXPLAIN'	=> 'When this setting is enabled, users who subscribe and allow browser notifications will start receiving them automatically. Users only need to visit the UCP Notification settings to disable any unwanted notifications.<br><br>If this setting is disabled, users will not receive any notifications, even if they have subscribed, until they visit the UCP Notification settings to enable the specific notification options they wish to receive.',
+	'WEBPUSH_DROPDOWN_SUBSCRIBE'	=> 'Show “Subscribe” button in notification dropdown',
+	'WEBPUSH_DROPDOWN_SUBSCRIBE_EXPLAIN'	=> 'Display a “Subscribe” button in the Notification dropdown, allowing users to easily subscribe to push notifications from anywhere in the forum.',
+]);
 
 // Jabber settings
 $lang = array_merge($lang, array(
