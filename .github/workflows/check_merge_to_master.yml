@@ -35,12 +35,20 @@ jobs:
                 id: merge_master
                 run: |
                     git checkout master
-                    if git merge --no-ff origin/3.3.x --no-commit; then
+                    if git merge --no-ff 3.3.x --no-commit; then
                       echo "mergeable=true" >> $GITHUB_OUTPUT
                     else
                       echo "mergeable=false" >> $GITHUB_OUTPUT
                       git merge --abort
                     fi
+
+            - name: Find Comment
+              uses: peter-evans/find-comment@v3
+              id: fc
+              with:
+                  issue-number: ${{ github.event.pull_request.number }}
+                  comment-author: 'github-actions[bot]'
+                  body-includes: The attempt to merge branch `3.3.x` into `master` has completed
 
             -   name: Post comment on PR
                 if: always()  # Ensure this step always runs, regardless of merge result
@@ -48,6 +56,8 @@ jobs:
                 with:
                     token: ${{ secrets.GITHUB_TOKEN }}
                     issue-number: ${{ github.event.pull_request.number }}
+                    comment-id: ${{ steps.fc.outputs.comment-id }}
+                    edit-mode: replace
                     body: |
                         The attempt to merge branch `3.3.x` into `master` has completed after considering the changes in this PR.
 
