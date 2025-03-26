@@ -183,6 +183,7 @@ class forms extends AbstractExtension
 				'GROUP_ONLY'	=> (bool) ($form_data['group_only'] ?? false),
 				'SIZE'			=> (int) ($form_data['size'] ?? 0),
 				'MULTIPLE'		=> (bool) ($form_data['multiple'] ?? false),
+				'ONCHANGE'		=> (string) ($form_data['onchange'] ?? ''),
 			]);
 		}
 		catch (\Twig\Error\Error $e)
@@ -205,7 +206,7 @@ class forms extends AbstractExtension
 		{
 			return $environment->render('macros/forms/textarea.twig', [
 				'CLASS'		=> (string) ($form_data['class'] ?? ''),
-				'ID'		=> (string) $form_data['id'],
+				'ID'		=> (string) ($form_data['id'] ?? ''),
 				'DATA'		=> $form_data['data'] ?? [],
 				'NAME'		=> (string) $form_data['name'],
 				'ROWS'		=> (int) ($form_data['rows'] ?? ''),

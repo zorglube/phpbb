@@ -120,8 +120,11 @@ define('POST_ANNOUNCE', 2);
 define('POST_GLOBAL', 3);
 
 // Notify methods
+/** @deprecated 4.0.0-a1 Replaced by \phpbb\messenger\method\messenger_interface::NOTIFY_EMAIL, to be removed in 5.0.0-a1 */
 define('NOTIFY_EMAIL', 0);
+/** @deprecated 4.0.0-a1 Replaced by \phpbb\messenger\method\messenger_interface::NOTIFY_IM, to be removed in 5.0.0-a1 */
 define('NOTIFY_IM', 1);
+/** @deprecated 4.0.0-a1 Replaced by \phpbb\messenger\method\messenger_interface::NOTIFY_BOTH, to be removed in 5.0.0-a1 */
 define('NOTIFY_BOTH', 2);
 
 // Notify status
@@ -152,9 +155,13 @@ define('FULL_FOLDER_DELETE', -2);
 define('FULL_FOLDER_HOLD', -1);
 
 // Confirm types
+/** @deprecated 4.0.0-a1 Replaced by \phpbb\captcha\plugins\confirm_type::REGISTRATION, to be removed in 5.0.0-a1 */
 define('CONFIRM_REG', 1);
+/** @deprecated 4.0.0-a1 Replaced by \phpbb\captcha\plugins\confirm_type::LOGIN, to be removed in 5.0.0-a1 */
 define('CONFIRM_LOGIN', 2);
+/** @deprecated 4.0.0-a1 Replaced by \phpbb\captcha\plugins\confirm_type::POST, to be removed in 5.0.0-a1 */
 define('CONFIRM_POST', 3);
+/** @deprecated 4.0.0-a1 Replaced by \phpbb\captcha\plugins\confirm_type::REPORT, to be removed in 5.0.0-a1 */
 define('CONFIRM_REPORT', 4);
 
 // Categories - Attachments

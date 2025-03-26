@@ -163,6 +163,22 @@ function parse_document(container)
 	});
 
 	/**
+	 * Dynamically control a text field's maxlength (allows emoji to be counted as 1 character)
+	 */
+	container.find('#sitename_short').each(function() {
+		const $this = this;
+		const maxLength = $this.maxLength;
+		$this.maxLength = maxLength * 2;
+		$this.addEventListener('input', () => {
+			const inputChars = Array.from($this.value);
+			if (inputChars.length > maxLength) {
+				$this.value = inputChars.slice(0, maxLength).join('');
+			}
+		});
+
+	});
+
+	/**
 	* Responsive tabs
 	*/
 	container.find('#tabs').not('[data-skip-responsive]').each(function() {
@@ -261,5 +277,34 @@ function parse_document(container)
 		$('.actions a:has(i.acp-icon)').mouseover(function () {
 			$(this).css("text-decoration", "none");
 		});
+
+		// Live update BBCode font icon preview
+		const updateIconClass = (element, newClass) => {
+			// Ignore invalid class names
+			const faIconRegex = /^(?!-)(?!.*--)[a-z0-9-]+(?<!-)$/;
+			if (!faIconRegex.test(newClass)) {
+				return;
+			}
+
+			element.classList.forEach(className => {
+				if (className.startsWith('fa-') && className !== 'fa-fw') {
+					element.classList.remove(className);
+				}
+			});
+
+			element.classList.add(`fa-${newClass}`);
+		};
+
+		const pageIconFont = document.getElementById('bbcode_font_icon');
+
+		if (pageIconFont) {
+			pageIconFont.addEventListener('keyup', function () {
+				updateIconClass(this.nextElementSibling, this.value);
+			});
+
+			pageIconFont.addEventListener('blur', function () {
+				updateIconClass(this.nextElementSibling, this.value);
+			});
+		}
 	});
 })(jQuery);

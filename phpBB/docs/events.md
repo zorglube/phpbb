@@ -70,18 +70,6 @@ acp_ext_details_notice
 * Since: 3.1.11-RC1
 * Purpose: Add extension detail notices after version check information.
 
-acp_ext_list_available_name_after
-===
-* Location: adm/style/acp_ext_list.html
-* Since: 3.3.14-RC1
-* Purpose: Add content after the name of available extensions in the list
-
-acp_ext_list_available_title_after
-===
-* Location: adm/style/acp_ext_list.html
-* Since: 3.3.14-RC1
-* Purpose: Add text after available extensions section title.
-
 acp_ext_list_disabled_name_after
 ===
 * Location: adm/style/acp_ext_list.html
@@ -105,6 +93,20 @@ acp_ext_list_enabled_title_after
 * Location: adm/style/acp_ext_list.html
 * Since: 3.1.11-RC1
 * Purpose: Add text after enabled extensions section title.
+
+acp_ext_list_not_installed_name_after
+===
+* Location: adm/style/acp_ext_list.html
+* Since: 3.3.14-RC1
+* Changed: 3.3.14 Renamed from acp_ext_list_available_name_after
+* Purpose: Add content after the name of not installed extensions in the list
+
+acp_ext_list_not_installed_title_after
+===
+* Location: adm/style/acp_ext_list.html
+* Since: 3.3.14-RC1
+* Changed: 3.3.14 Renamed from acp_ext_list_available_title_after
+* Purpose: Add text after not installed extensions section title.
 
 acp_forums_custom_settings
 ===
@@ -951,11 +953,19 @@ index_body_forumlist_body_after
 * Since: 3.1.1
 * Purpose: Add content after the forum list body on the index page
 
+index_body_forumlist_body_before
+===
+* Locations:
+    + styles/prosilver/template/index_body.html
+* Since: 4.0.0-a1
+* Purpose: Add content before the forum list body on the index page
+
 index_body_markforums_after
 ===
 * Locations:
     + styles/prosilver/template/index_body.html
 * Since: 3.1.0-RC2
+* Deprecated: 4.0.0-a1 Use index_body_forumlist_body_before instead
 * Purpose: Add content after the mark-read link above the forum list on Board index
 
 index_body_markforums_before
@@ -963,6 +973,7 @@ index_body_markforums_before
 * Locations:
     + styles/prosilver/template/index_body.html
 * Since: 3.1.0-RC2
+* Deprecated: 4.0.0-a1 Use index_body_forumlist_body_before instead
 * Purpose: Add content before the mark-read link above the forum list on Board index
 
 index_body_stat_blocks_after
